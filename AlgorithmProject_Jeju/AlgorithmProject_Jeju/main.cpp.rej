@@ -1,0 +1,53 @@
+diff a/AlgorithmProject_Jeju/AlgorithmProject_Jeju/main.cpp b/AlgorithmProject_Jeju/AlgorithmProject_Jeju/main.cpp	(rejected hunks)
+@@ -122,51 +122,6 @@
+ 	cout << "Welcome to Jeju Island! Please input places where you want to go without any blank! " << endl;
+ 	cout << "ex>���������Ǽ� �������� ����� �ڱ������� ���α��׸���ũ" << endl;
+ 
+-	/*
+-	//user�� �Է��� string �������� �߶� spot���� newSpot �����ؼ� spots ���Ϳ� push
+-	getline(cin, spotstr);
+-	vector<string> spotTok = split(spotstr, ' ');
+-
+-	for (unsigned int i = 0; i < spotTok.size(); i++) {
+-	newSpot = new spotNode(spotTok.at(i));
+-	spots.push_back(*newSpot);
+-	}
+-
+-	//����� ���ֵ� ������ txt ���� open ��
+-	//getline���� ���پ� �о ��Ҹ� ��ġ�ϸ� ���� �浵 �����ϱ�
+-	int spotNum = spots.size();
+-
+-	fin.open("JejuData.txt");
+-	if (fin.is_open()) {
+-	for (unsigned int i = 0; i < spotNum; i++) {
+-	while (getline(fin, linefromtxt)) {
+-	vector<string> txtTok = split(linefromtxt, ' ');
+-
+-	//����ڰ� �Է��� ��Ҹ� txt ���Ͽ��� ã���� ���� �浵 ����
+-	if (txtTok.at(0) == spots.at(i).getSpotname()) {
+-	spots.at(i).setLatitude(atof(txtTok.at(1).c_str()));
+-	spots.at(i).setLongtitude(atof(txtTok.at(2).c_str()));
+-	break;
+-	}
+-	}
+-	}
+-	}
+-
+-	//���� �׷��� ����
+-	vector<vector<double>> edgeGraph(spotNum, vector<double>(spotNum, 0));
+-	for (int i = 0; i < spotNum; i++) {
+-	for (int j = 0; j < spotNum; j++) {
+-	//���� ��� ���� �Ÿ��� MAX��
+-	if (i == j) edgeGraph[i][j] = MAX;
+-	else {
+-	//�����Ÿ� ���ϴ� �Լ� getDistance �̿�
+-	edgeGraph[i][j] = getDistance(&spots, i, j);
+-	}
+-	}
+-	}
+-
+-	return 0;
+-	*/
+ }
+ 
+ double getDistance(vector<spotNode> * spots, int idx1, int idx2) {
