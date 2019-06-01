@@ -248,6 +248,7 @@ void titleDraw() {
 	cout << "  ▩                       ■       ■                ■       ■      ■       ▩ " << endl;
 	cout << "  ▩                       ■       ■■■■■        ■       ■      ■       ▩ " << endl;
 	cout << "  ▩                       ■       ■                ■       ■      ■       ▩ " << endl;
+	cout << "  ▩                       ■       ■                ■       ■      ■       ▩ " << endl;
 	cout << "  ▩                 ■■■■       ■■■■■  ■■■■       ■■■■■       ▩ " << endl;
 	cout << "  ▩                                                                            ▩ " << endl;
 	cout << "  ▩                                                                            ▩ " << endl;
@@ -301,7 +302,7 @@ int keyControl() {
 }
 
 void init() {
-	system("mode can cols=60 lines=20 | title 게 임 제 목");
+	system("mode can cols=60 lines=20 | title  Welcome to Jeju!");
 }
 
 void gotoxy(int x, int y) {
