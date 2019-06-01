@@ -203,6 +203,7 @@ void titleDraw() {
 	cout << "  ¢Ì                       ¡á       ¡á                ¡á       ¡á      ¡á       ¢Ì " << endl;
 	cout << "  ¢Ì                       ¡á       ¡á¡á¡á¡á¡á        ¡á       ¡á      ¡á       ¢Ì " << endl;
 	cout << "  ¢Ì                       ¡á       ¡á                ¡á       ¡á      ¡á       ¢Ì " << endl;
+	cout << "  ¢Ì                       ¡á       ¡á                ¡á       ¡á      ¡á       ¢Ì " << endl;
 	cout << "  ¢Ì                 ¡á¡á¡á¡á       ¡á¡á¡á¡á¡á  ¡á¡á¡á¡á       ¡á¡á¡á¡á¡á       ¢Ì " << endl;
 	cout << "  ¢Ì                                                                            ¢Ì " << endl;
 	cout << "  ¢Ì                                                                            ¢Ì " << endl;
@@ -256,7 +257,11 @@ int keyControl() {
 }
 
 void init() {
+<<<<<<< HEAD
 	system("mode can cols=60 lines=20 | title ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½");
+=======
+	system("mode can cols=60 lines=20 | title  Welcome to Jeju!");
+>>>>>>> 70ff7cec1b51ebdd2d94eaabe6fd5826da332e2a
 }
 
 void gotoxy(int x, int y) {
