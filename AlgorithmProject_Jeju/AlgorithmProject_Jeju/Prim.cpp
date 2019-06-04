@@ -62,3 +62,96 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 	cout << spots->at(route.back()).getSpotname() << endl;
 
 }
+
+class edgeInfo {
+public:
+	edgeInfo(int r, int c, double value) {
+		this->row = r;
+		this->col = c;
+		this->edgevalue = value;
+	}
+
+	int row;
+	int col;
+	double edgevalue;
+};
+
+void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
+
+	int visiteInreal = 0;
+	double totalWeight;
+	int totalnodeNum = spots->size();
+	int * visitedCheck = new int[totalnodeNum];
+	for (int i = 0; i < totalnodeNum; i++) {
+		visitedCheck[i] = 0;
+	}
+
+	//간선 값 계산시 필요한 edge값
+	vector<vector<double>> edgeForweight(totalnodeNum, vector<double>(totalnodeNum, 0));
+	for (int i = 0; i < totalnodeNum; i++) {
+		for (int j = 0; j < totalnodeNum; j++) {
+			edgeForweight[i][j] = edgeGraph->at[i][j];
+		}
+	}
+
+	vector<edgeInfo> edgesforSort;
+	edgeInfo * cadiEdge;
+	vector<int> route;
+
+	//spots의 0번째 원소에 시작 노드를 설정된 상태
+	route.push_back(0);
+
+	//실 방문 노드 수가 사용자가 입력한 곳이랑 동일할 때까지 
+	while (visiteInreal < totalnodeNum){
+
+		//방문한 모든 노드들에 연결된 간선들을 모두 고려
+		for (int i = 0; i<route.size(); i++) {
+			for (int j = 0; j < totalnodeNum; j++) {
+				if (edgeGraph->at[i][j] != MAX && edgeGraph->at[i][j] != VISITED) {
+					//고려대상인 간선들 vector에 넣어두기
+					cadiEdge = new edgeInfo(i, j, edgeGraph->at[i][j]);
+					edgesforSort.push_back(*cadiEdge);
+				}
+			}
+		}
+
+		//고려대상이 된 간선들에서 최소값 찾아내기
+		int minrow, mincol;  //mincol이 새로 찾아갈 새로운 노드 idx 값 in spots에서
+		double minedge;
+
+		for (int i = 1;i<edgesforSort.size();i++){
+			if (edgesforSort.at(i).edgevalue < edgesforSort.at(i - 1).edgevalue) {
+				minrow = edgesforSort.at(i).row;
+				mincol = edgesforSort.at(i).col;
+				minedge = edgesforSort.at(i).edgevalue;
+			}
+		}
+
+		edgeGraph->at[minrow][mincol] = VISITED;
+		edgeGraph->at[mincol][minrow] = VISITED;
+
+		bool reallynew = true;
+
+		//새로 방문한 노드가 진짜 새로 방문한 노드일 때
+		for (int i = 0; i < route.size(); i++) {
+			if (route.at(i) == mincol) {
+				reallynew = false;
+			}
+		}
+		route.push_back(mincol);
+
+		if (reallynew) visiteInreal++;
+	}
+
+	for (int i = 0; i < route.size(); i++) {
+		totalWeight += edgeForweight[route.at(i)][route.at(i + 1)];
+
+		if (!visitedCheck[route.at(i)]) {
+			cout << spots->at(route.at(i)).getSpotname();
+			if (i < route.size()) cout << " -> ";
+		}
+	}
+
+	cout << "총 이동거리 = " << totalWeight << endl << endl;
+	
+}

@@ -6,9 +6,10 @@
 #include <sstream>
 #include <Windows.h>
 #include <conio.h>
+#include "init.h"
 
 #define _CRT_SECURE_NO_WARNINGS
-#define MAX 10000
+#define MAX 100000
 #define UP 1
 #define DOWN 2
 #define LEFT 3
@@ -24,27 +25,6 @@ int keyControl();
 void gotoxy(int, int);
 void init();
 void infoDraw();
-
-//txt ÆÄÀÏ¿¡ ÀúÀåµÇ¾î ÀÖ´Â Àå¼Ò¸í / À§µµ / °æµµ·Î ±¸¼ºµÈ °¢ spot class
-class spotNode {
-private:
-	string spotname;
-	double latitude;
-	double longtitude;
-public:
-	spotNode(string spotstr) {
-		this->spotname = spotstr;
-		this->latitude = this->longtitude = NULL;
-	}
-	void setLatitude(double lat) { this->latitude = lat; }
-	void setLongtitude(double lon) { this->longtitude = lon; }
-	string getSpotname() { return this->spotname; }
-	double getLatitude() { return this->latitude; }
-	double getLongtitude() { return this->longtitude; }
-};
-
-vector<string> split(string str, char delimiter);
-double getDistance(vector<spotNode> * spots, int idx1, int idx2);
 
 //-----------------main program-------------------
 int main() {
@@ -124,24 +104,6 @@ int main() {
 
 }
 
-double getDistance(vector<spotNode> * spots, int idx1, int idx2) {
-	double distance = 0;
-	distance += pow((spots->at(idx1).getLatitude()) - (spots->at(idx2).getLatitude()), 2);
-	distance += pow((spots->at(idx1).getLongtitude()) - (spots->at(idx2).getLongtitude()), 2);
-
-	return distance;
-}
-
-vector<string> split(string str, char delimiter) {
-	vector<string> internal;
-	stringstream ss(str);
-	string temp;
-
-	while (getline(ss, temp, delimiter)) {
-		internal.push_back(temp);
-	}
-	return internal;
-}
 
 int menuDraw() {
 	int x = 34; //¿ø·¡ 24
@@ -257,11 +219,11 @@ int keyControl() {
 }
 
 void init() {
-<<<<<<< HEAD
+
 	system("mode can cols=60 lines=20 | title ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½");
-=======
+
 	system("mode can cols=60 lines=20 | title  Welcome to Jeju!");
->>>>>>> 70ff7cec1b51ebdd2d94eaabe6fd5826da332e2a
+
 }
 
 void gotoxy(int x, int y) {
