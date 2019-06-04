@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <string>
 #include <string.h>
 #include <fstream>
@@ -26,6 +25,12 @@ void gotoxy(int, int);
 void init();
 void infoDraw();
 
+int  check;
+
+vector<string> split(string str, char delimiter);
+double getDistance(vector<spotNode> * spots, int idx1, int idx2);
+
+
 //-----------------main program-------------------
 int main() {
 	string spotstr;
@@ -34,7 +39,11 @@ int main() {
 	ifstream fin;
 
 	vector<spotNode> spots;
+	vector<spotInfostruct> allSpotInfo;
+	spotInfostruct * newlinestruct;
 	spotNode * newSpot;
+
+	string startpoint;
 
 	init();
 	while (1) {
@@ -42,9 +51,22 @@ int main() {
 		int menuCode = menuDraw();
 		if (menuCode == 0) {
 			infoDraw();
-
+			
 			getline(cin, spotstr);
 			vector<string> spotTok = split(spotstr, ' ');
+			vector<string>::iterator iter;
+
+			cout << "then where do you want to start your journey? : ";
+			cin >> startpoint;
+
+			//시작노드를 탐색하여 vector의 맨 첫 요소로 설정 
+			for (iter = spotTok.begin(); iter != spotTok.end(); iter++) {
+				if (*iter == startpoint) {
+					spotTok.erase(iter);
+					break;
+				}
+			}
+			spotTok.insert(spotTok.begin(), startpoint);
 
 			for (unsigned int i = 0; i < spotTok.size(); i++) {
 				newSpot = new spotNode(spotTok.at(i));
@@ -57,20 +79,36 @@ int main() {
 
 			fin.open("JejuData.txt");
 			if (fin.is_open()) {
+				while (getline(fin, linefromtxt)) {
+					vector<string> txtTok = split(linefromtxt, ' ');
+					newlinestruct = new spotInfostruct;
+					newlinestruct->spotname = txtTok.at(0);
+					newlinestruct->latitude = atof(txtTok.at(1).c_str());
+					newlinestruct->lontitude = atof(txtTok.at(2).c_str());
+					allSpotInfo.push_back(*newlinestruct);
+				}
+
 				for (unsigned int i = 0; i < spotNum; i++) {
-					while (getline(fin, linefromtxt)) {
-						vector<string> txtTok = split(linefromtxt, ' ');
+					for(int j=0;j<allSpotInfo.size();j++){
 
 						//사용자가 입력한 장소를 txt 파일에서 찾으면 위도 경도 저장
-						if (txtTok.at(0) == spots.at(i).getSpotname()) {
-							spots.at(i).setLatitude(atof(txtTok.at(1).c_str()));
-							spots.at(i).setLongtitude(atof(txtTok.at(2).c_str()));
+						if (allSpotInfo.at(j).spotname == spots.at(i).getSpotname()) {
+							spots.at(i).setLatitude(allSpotInfo.at(j).latitude);
+							spots.at(i).setLongtitude(allSpotInfo.at(j).lontitude);
 							break;
 						}
 					}
 				}
 			}
 
+			fin.close();
+
+			for (int i = 0; i < spots.size(); i++) {
+				cout << spots.at(i).getSpotname() << " " << spots.at(i).getLatitude() << " " << spots.at(i).getLongtitude() << endl;
+			}
+
+			cout << "여기까지 test" << endl;
+			cin >> check;
 			//간선 그래프 생성
 			vector<vector<double>> edgeGraph(spotNum, vector<double>(spotNum, 0));
 			for (int i = 0; i < spotNum; i++) {
@@ -103,6 +141,27 @@ int main() {
 	cout << "ex>제주유리의성 부지깽이 산고을 자구내포구 소인국테마파크" << endl;
 
 }
+
+
+double getDistance(vector<spotNode> * spots, int idx1, int idx2) {
+	double distance = 0;
+	distance += pow((spots->at(idx1).getLatitude()) - (spots->at(idx2).getLatitude()), 2);
+	distance += pow((spots->at(idx1).getLongtitude()) - (spots->at(idx2).getLongtitude()), 2);
+
+	return distance;
+}
+
+vector<string> split(string str, char delimiter) {
+	vector<string> internal;
+	stringstream ss(str);
+	string temp;
+
+	while (getline(ss, temp, delimiter)) {
+		internal.push_back(temp);
+	}
+	return internal;
+}
+
 
 
 int menuDraw() {
@@ -187,13 +246,6 @@ void infoDraw() {
 	cout << "Welcome to Jeju Island! Please input places where you want to go without any blank! " << endl;
 	cout << "ex>제주유리의성 부지깽이 산고을 자구내포구 소인국테마파크" << endl;
 
-	/*
-	while (1) {
-	if (keyControl() == SUBMIT) {
-	break;
-	}
-	}
-	*/
 }
 
 
@@ -221,7 +273,6 @@ int keyControl() {
 void init() {
 
 	system("mode can cols=60 lines=20 | title 占쏙옙 占쏙옙 占쏙옙 占쏙옙");
-
 	system("mode can cols=60 lines=20 | title  Welcome to Jeju!");
 
 }

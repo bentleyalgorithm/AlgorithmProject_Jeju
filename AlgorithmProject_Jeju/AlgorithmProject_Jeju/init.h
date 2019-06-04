@@ -5,10 +5,6 @@
 
 using namespace std;
 
-//txt 파일에 저장되어 있는 장소명 / 위도 / 경도로 구성된 각 spot class
-vector<string> split(string str, char delimiter);
-double getDistance(vector<spotNode> * spots, int idx1, int idx2);
-
 class spotNode {
 private:
 	string spotname;
@@ -26,23 +22,22 @@ public:
 	double getLongtitude() { return this->longtitude; }
 };
 
-
-double getDistance(vector<spotNode> * spots, int idx1, int idx2) {
-	double distance = 0;
-	distance += pow((spots->at(idx1).getLatitude()) - (spots->at(idx2).getLatitude()), 2);
-	distance += pow((spots->at(idx1).getLongtitude()) - (spots->at(idx2).getLongtitude()), 2);
-
-	return distance;
-}
-
-vector<string> split(string str, char delimiter) {
-	vector<string> internal;
-	stringstream ss(str);
-	string temp;
-
-	while (getline(ss, temp, delimiter)) {
-		internal.push_back(temp);
+class edgeInfo {
+public:
+	edgeInfo(int r, int c, double value) {
+		this->row = r;
+		this->col = c;
+		this->edgevalue = value;
 	}
-	return internal;
-}
-#pragma once
+
+	int row;
+	int col;
+	double edgevalue;
+};
+
+typedef struct spotInfotxt {
+	string spotname;
+	double latitude;
+	double lontitude;
+}spotInfostruct;
+//txt 파일에 저장되어 있는 장소명 / 위도 / 경도로 구성된 각 spot class

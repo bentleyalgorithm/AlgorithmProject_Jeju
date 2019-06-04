@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <string>
 #include "init.h"
 #include <algorithm>
@@ -9,7 +8,7 @@
 
 using namespace std;
 
-void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
+/*void getPrimMST(vector<spotNode> * spots, vector<vector<double>> edgeGraph) {
 
 	//spots 들 중에서 사용자가 입력한 시작지점 부터 prim 알고리즘 시작
 	//시작 노드 = spots 의 첫번째 요소 
@@ -26,10 +25,10 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 	//모든 지점을 방문할 때 까지 -> route 벡터 완성
 	while (visitedCnt < spots->size()){
 		for (int i = 0; i < spots->size(); i++) {
-			if (edgeGraph->at[lastVisited][i] != MAX && edgeGraph->at[lastVisited][i] != VISITED) {
+			if (edgeGraph[lastVisited][i] != MAX && edgeGraph[lastVisited][i] != VISITED) {
 				//자기 자신 노드가 아니고 방문했던 노드가 아니면
 				//탐색하면서 간선값들을 배열에 저장하여
-				edgesforSort.push_back(pair<double, int>(edgeGraph->at[lastVisited][i], i));
+				edgesforSort.push_back(pair<double, int>(edgeGraph[lastVisited][i], i));
 			}
 		}
 
@@ -39,8 +38,8 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 		//정렬후에 edgesforSort의 첫번째 원소 두번째 int 값이 다음 노드
 		//방문할 노드에 해당하는 간선 방문표시 
 		nextNode = edgesforSort.at(0).second;
-		edgeGraph->at[lastVisited][nextNode] = VISITED;
-		edgeGraph->at[nextNode][lastVisited] = VISITED;
+		edgeGraph[lastVisited][nextNode] = VISITED;
+		edgeGraph[nextNode][lastVisited] = VISITED;
 
 		//경로에 노드 추가 
 		route.push_back(nextNode);
@@ -56,30 +55,17 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 		cout << spots->at(route.at(i)).getSpotname()<<" -> ";
 
 		//route 에 저장되어 있는 spot idx 다음 spot idx 까지의 edge 값 더하기
-		totalWeight += edgeGraph->at[route.at(i)][route.at(i + 1)];
+		totalWeight += edgeGraph[route.at(i)][route.at(i + 1)];
 	}
 	//마지막 노드 출력
 	cout << spots->at(route.back()).getSpotname() << endl;
 
-}
+}*/
 
-class edgeInfo {
-public:
-	edgeInfo(int r, int c, double value) {
-		this->row = r;
-		this->col = c;
-		this->edgevalue = value;
-	}
-
-	int row;
-	int col;
-	double edgevalue;
-};
-
-void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
+void getPrimMST(vector<spotNode> * spots, vector<vector<double>> edgeGraph) {
 
 	int visiteInreal = 0;
-	double totalWeight;
+	double totalWeight = 0;
 	int totalnodeNum = spots->size();
 	int * visitedCheck = new int[totalnodeNum];
 	for (int i = 0; i < totalnodeNum; i++) {
@@ -90,7 +76,7 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 	vector<vector<double>> edgeForweight(totalnodeNum, vector<double>(totalnodeNum, 0));
 	for (int i = 0; i < totalnodeNum; i++) {
 		for (int j = 0; j < totalnodeNum; j++) {
-			edgeForweight[i][j] = edgeGraph->at[i][j];
+			edgeForweight[i][j] = edgeGraph[i][j];
 		}
 	}
 
@@ -107,9 +93,9 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 		//방문한 모든 노드들에 연결된 간선들을 모두 고려
 		for (int i = 0; i<route.size(); i++) {
 			for (int j = 0; j < totalnodeNum; j++) {
-				if (edgeGraph->at[i][j] != MAX && edgeGraph->at[i][j] != VISITED) {
+				if (edgeGraph[i][j] != MAX && edgeGraph[i][j] != VISITED) {
 					//고려대상인 간선들 vector에 넣어두기
-					cadiEdge = new edgeInfo(i, j, edgeGraph->at[i][j]);
+					cadiEdge = new edgeInfo(i, j, edgeGraph[i][j]);
 					edgesforSort.push_back(*cadiEdge);
 				}
 			}
@@ -127,8 +113,8 @@ void getPrimMST(vector<spotNode> * spots, vector<vector<double>> * edgeGraph) {
 			}
 		}
 
-		edgeGraph->at[minrow][mincol] = VISITED;
-		edgeGraph->at[mincol][minrow] = VISITED;
+		edgeGraph[minrow][mincol] = VISITED;
+		edgeGraph[mincol][minrow] = VISITED;
 
 		bool reallynew = true;
 
