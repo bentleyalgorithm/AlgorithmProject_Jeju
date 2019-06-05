@@ -411,11 +411,17 @@ void kruskal(vector<vector<double>> g, int N) {
 		if (check == false) {
 			cout << " -> " << startNode2;
 			visited.push_back(startNode2);
-			path[startNode].pop_back();	//startNode2를 제거한다
+			//startNode2를 제거한다
+			if (path[startNode].size() > 1)
+				path[startNode].pop_back();
 			startNode = startNode2;	//startNode 갱신
 		}
 		else {
-			path[startNode].pop_back();
+			//size가 0이 되지 않도록 한다.
+			if(path[startNode].size()>1){
+				path[startNode].pop_back();
+			}
+			
 		}
 	}
 }
